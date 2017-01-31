@@ -9,6 +9,8 @@ from .utils import percent_round_int
 #import base
 from .base.pygamewrapper import PyGameWrapper
 
+from gym.spaces import Box
+
 class Ball(pygame.sprite.Sprite):
 
     def __init__(self, radius, speed,
@@ -200,6 +202,10 @@ class Pong(PyGameWrapper):
                 if key == self.actions['down']:
                     self.dy += self.players_speed
 
+    @staticmethod
+    def getGameSpace():
+        return Box(0, 1, (7,))
+
     def getGameState(self):
         """
         Gets a non-visual state representation of the game.
@@ -207,7 +213,7 @@ class Pong(PyGameWrapper):
         Returns
         -------
 
-        dict
+        list
             * player y position.
             * players velocity.
             * cpu y position.
@@ -219,17 +225,15 @@ class Pong(PyGameWrapper):
             See code for structure.
 
         """
-        state = {
-            "player_y": self.agentPlayer.pos.y,
-            "player_velocity": self.agentPlayer.vel.y,
-            "cpu_y": self.cpuPlayer.pos.y,
-            "ball_x": self.ball.pos.x,
-            "ball_y": self.ball.pos.y,
-            "ball_velocity_x": self.ball.pos.x,
-            "ball_velocity_y": self.ball.pos.y
-        }
-
-        return state
+        return [
+            self.agentPlayer.pos.y,
+            self.agentPlayer.vel.y,
+            self.cpuPlayer.pos.y,
+            self.ball.pos.x,
+            self.ball.pos.y,
+            self.ball.pos.x,
+            self.ball.pos.y
+        ]
 
     def getScore(self):
         return self.score_sum
