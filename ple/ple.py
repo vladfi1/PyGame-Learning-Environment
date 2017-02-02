@@ -112,7 +112,10 @@ class PLE(object):
         # update the scores of games with values we pick
         if reward_values:
             self.game.adjustRewards(reward_values)
-
+            
+        if not display_screen:
+            import os
+            os.environ['SDL_VIDEODRIVER'] = "dummy"
 
         if isinstance(self.game, PyGameWrapper):
             if isinstance(rng, np.random.RandomState):
