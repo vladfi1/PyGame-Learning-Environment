@@ -138,7 +138,7 @@ class Player(pygame.sprite.Sprite):
             self.pos.y = self.SCREEN_HEIGHT - self.rect_height / 2
             self.vel.y = 0.0
 
-        self.pos.y += dy * dt
+        self.pos.y += dy * dt / 2.0
         self.rect.center = (self.pos.x, self.pos.y)
 
 
