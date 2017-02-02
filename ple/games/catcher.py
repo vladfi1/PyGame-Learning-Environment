@@ -176,6 +176,10 @@ class Catcher(base.PyGameWrapper):
 
         self.fruit.reset()
 
+    @staticmethod
+    def getGameSpace():
+        return Box(-200, 200, (4,))
+        
     def getGameState(self):
         """
         Gets a non-visual state representation of the game.
@@ -192,12 +196,13 @@ class Catcher(base.PyGameWrapper):
             See code for structure.
 
         """
-        state = {
-            "player_x": self.player.rect.center[0],
-            "player_vel": self.player.vel,
-            "fruit_x": self.fruit.rect.center[0],
-            "fruit_y": self.fruit.rect.center[1]
-        }
+       
+        state = [
+            self.player.rect.center[0],
+            self.player.vel,
+            self.fruit.rect.center[0],
+            self.fruit.rect.center[1]
+        ]   
 
         return state
 
