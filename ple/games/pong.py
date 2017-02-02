@@ -9,6 +9,7 @@ from .utils import percent_round_int
 #import base
 from .base.pygamewrapper import PyGameWrapper
 
+import numpy as np
 from gym.spaces import Box
 
 class Ball(pygame.sprite.Sprite):
@@ -202,9 +203,10 @@ class Pong(PyGameWrapper):
                 if key == self.actions['down']:
                     self.dy += self.players_speed
 
-    @staticmethod
-    def getGameSpace():
-        return Box(0, 1, (7,))
+    def getGameSpace(self):
+        low = np.array([0, -2, 0, 0, 0, -1, -1])
+        high = np.array([1, 2, 1, 1, 1, 1, 1])
+        return Box(low, high)
 
     def getGameState(self):
         """
@@ -226,13 +228,13 @@ class Pong(PyGameWrapper):
 
         """
         return [
-            self.agentPlayer.pos.y,
-            self.agentPlayer.vel.y,
-            self.cpuPlayer.pos.y,
-            self.ball.pos.x,
-            self.ball.pos.y,
-            self.ball.pos.x,
-            self.ball.pos.y
+            self.agentPlayer.pos.y / self.height,
+            self.agentPlayer.vel.y / self.height,
+            self.cpuPlayer.pos.y / self.height,
+            self.ball.pos.x / self.width,
+            self.ball.pos.y / self.height,
+            self.ball.vel.x / self.width,
+            self.ball.vel.y / self.height
         ]
 
     def getScore(self):
@@ -325,8 +327,6 @@ class Pong(PyGameWrapper):
         self.ball_group.draw(self.screen)
 
 if __name__ == "__main__":
-    import numpy as np
-
     pygame.init()
     game = Pong(width=256, height=200)
     game.screen = pygame.display.set_mode(game.getScreenDims(), 0, 32)
