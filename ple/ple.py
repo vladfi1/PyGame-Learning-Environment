@@ -192,7 +192,8 @@ class PLE(object):
         #assert isinstance(actions, list), "actions is not a list"
 
         if self.add_noop_action:
-            actions.append(self.NOOP)
+            actions = [self.NOOP] + actions
+            #actions.append(self.NOOP)
 
         return actions
 
