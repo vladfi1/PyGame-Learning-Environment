@@ -4,7 +4,7 @@ from .utils import percent_round_int
 
 from ple.games import base
 from pygame.constants import K_a, K_d
-
+from gym.spaces import Box
 
 class Paddle(pygame.sprite.Sprite):
 
